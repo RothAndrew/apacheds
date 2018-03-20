@@ -8,8 +8,8 @@ services:
     #environment:
     #  - BOOTSTRAP_FILE=/bootstrap/the-file.ldif
     volumes:
-      - "apacheds_data:/data"
-      - "./bootstrap:/bootstrap"
+      - apacheds_data:/data
+      - ./bootstrap:/bootstrap
     secrets:
       - apacheds_admin_password
 volumes:
