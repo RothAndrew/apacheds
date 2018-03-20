@@ -83,6 +83,10 @@ To change which port you want to use to connect to Apache DS, modify [docker-com
         ports:
           - "20389:10389"
 
+## Using SSL
+
+Please check back later for instructions on how to secure Apache DS using SSL.
+
 ## Lifecycle Management
 
 To create & start:
