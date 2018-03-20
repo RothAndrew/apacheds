@@ -48,7 +48,7 @@ The docker compose file uses a Docker Secret linked to a file called `apacheds_a
 1. Log in using [Apache Directory Studio](http://directory.apache.org/studio/) using the above default credentials
 1. Change the password according to the [documentation](http://directory.apache.org/apacheds/basic-ug/1.4.2-changing-admin-password.html)
 1. `docker-compose stop`
-1. `echo "MyNewP@ssw0rd" >> apacheds_admin_password.secret`
+1. `echo 'MyNewP@ssw0rd' >> apacheds_admin_password.secret`
 1. `docker-compose start`
 
 > Note: Docker may have inadvertently created a **directory** called `apacheds_admin_password.secret` when you ran `docker-compose up`. Make sure you delete it before creating the actual secret file.
