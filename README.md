@@ -74,6 +74,41 @@ If you have some extra data you want to put into Directory, you can place a file
         environment:
           - BOOTSTRAP_FILE=/bootstrap/the-file.ldif
 
+## Change ports
+
+To change which port you want to use to connect to Apache DS, modify [docker-compose.yml](docker-compose.yml). For example, if you want to connect using port 20389 rather than 10389:
+
+    services:
+      ldap:
+        ports:
+          - "20389:10389"
+
+## Lifecycle Management
+
+To create & start:
+
+    docker-compose up -d --build
+
+> `-d` Tells docker-compose to run in detached mode. `--build` tells docker-compose to build the docker image first in case there have been any changes.
+
+To stop:
+
+    docker-compose stop
+
+To start:
+
+    docker-compose start
+
+To restart:
+
+    docker-compose restart
+
+To completely tear down the instance and delete all data:
+
+    docker-compose down -v
+
+> If you don't use the -v flag, the containers will be stopped and removed, but the persistent volume will not.
+
 
 ### Examples
 
