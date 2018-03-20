@@ -13,4 +13,4 @@ volumes:
   apacheds_data:
 secrets:
   apacheds_admin_password:
-    file: ./apacheds_admin_password.secret
+    file: ./apacheds_admin_password.txt
