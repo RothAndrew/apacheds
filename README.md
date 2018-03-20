@@ -27,7 +27,7 @@ Container has two volumes defined:
 * **/data** - if you want to persiste container data somewhere
 * **/bootstrap** - for configuration, schema and bootstraping file
 
-### Bootstraping
+### Bootstrapping
 
 If you want to bootstrap Apache DS with a specific **schema** mount a bootstrap volume and place Apache DS specific schema in it.
 

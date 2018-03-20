@@ -1,7 +1,5 @@
 FROM centos:7
 
-MAINTAINER "Greg Gigon @ https://github.com/greggigon"
-
 ADD apacheds.sh /usr/local/bin/	
 RUN useradd apacheds
 

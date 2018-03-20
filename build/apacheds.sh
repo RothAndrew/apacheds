@@ -6,7 +6,13 @@ function wait_for_ldap {
 	echo "Waiting for LDAP to be available "
 	c=0
 
-    ldapsearch -h localhost -p 10389 -D 'uid=admin,ou=system' -w secret ou=system;
+	if [ ! -f /run/secrets/apacheds_admin_password ]; then
+		password="secret"
+	else
+		password=`cat /run/secrets/apacheds_admin_password`
+	fi
+
+    ldapsearch -h localhost -p 10389 -D 'uid=admin,ou=system' -w $password ou=system;
     
     while [ $? -ne 0 ]; do
         echo "LDAP not up yet... retrying... ($c/20)"
@@ -18,7 +24,7 @@ function wait_for_ldap {
  		fi
  		c=$((c+1))
     	
-    	ldapsearch -h localhost -p 10389 -D 'uid=admin,ou=system' -w secret ou=system;
+    	ldapsearch -h localhost -p 10389 -D 'uid=admin,ou=system' -w $password ou=system;
     done 
 }
 
@@ -49,7 +55,7 @@ wait_for_ldap
 if [ -n "${BOOTSTRAP_FILE}" ]; then
 	echo "Bootstraping Apache DS with Data from ${BOOTSTRAP_FILE}"
 	
-	ldapmodify -h localhost -p 10389 -D 'uid=admin,ou=system' -w secret -f $BOOTSTRAP_FILE
+	ldapmodify -h localhost -p 10389 -D 'uid=admin,ou=system' -w $password -f $BOOTSTRAP_FILE
 fi
 
 trap "echo 'Stopping Apache DS';/opt/apacheds-2.0.0_M24/bin/apacheds stop default;exit 0" SIGTERM SIGKILL

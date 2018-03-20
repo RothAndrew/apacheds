@@ -1,0 +1,1 @@
+[docker-compose.yml](../docker-compose.yml) uses this folder for bootstrapping. See the [Bootstrapping](../README.md#Bootstrapping) section of the main README for more information.

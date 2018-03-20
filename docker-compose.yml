@@ -1,0 +1,16 @@
+version: "3.1"
+services:
+  ldap:
+    build: ./build
+    ports:
+      - "50389:10389"
+    volumes:
+      - "apacheds_data:/data"
+      - "./bootstrap:/bootstrap"
+    secrets:
+      - apacheds_admin_password
+volumes:
+  apacheds_data:
+secrets:
+  apacheds_admin_password:
+    file: ./apacheds_admin_password.secret
