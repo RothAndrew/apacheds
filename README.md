@@ -1,9 +1,9 @@
 Apache DS in a Docker Container
 ===============================
 
-Apache DS is a Java implementation of Directory server (**LDAP**). This projects puts it into container and makes it easier to configure and bootstrap it with some data.
+Apache DS is a Java implementation of Directory server (**LDAP**). This projects puts it into a container and makes it easier to configure and bootstrap it with some data.
 
-[Apache DS Page](1) that explains what it is.
+See full [Apache DS documentation](http://directory.apache.org/apacheds/) for more information including the [Basic User Guide](http://directory.apache.org/apacheds/basic-user-guide.html).
 
 ## Docker Compose
 `docker-compose` makes it very easy to build and deploy Apache DS in one step.
@@ -13,9 +13,9 @@ Doing this will:
 1. Build the image
 1. Expose the ports necessary to connect to Apache DS
 1. Create the volumes necessary to persist your data and bootstrap the app
-1. Specifies a file called `apacheds_admin_password.secret` that you can put the password for your system admin account.
+1. Specify a file called `apacheds_admin_password.secret` that you can put the password for your system admin account.
 
-See the [docker-compose.yml](docker-compose.yml) file for full details.
+See [docker-compose.yml](docker-compose.yml) for full details.
 
 To deploy Apache DS, run the following commands:
 
@@ -25,7 +25,7 @@ To deploy Apache DS, run the following commands:
 
 The default instance of Apache DS will now be running on port 10389 with no SSL. It has a default admin user and password and all default Apache DS schemas.
 
-> user: **uid=admin,ou=system** password: **secret**
+> Bind DN: **uid=admin,ou=system** password: **secret**
 
 ## Build and run the container without Docker Compose
 
@@ -42,7 +42,7 @@ Note: If you do it this way, without using Docker Compose, you can't change the 
 
 ## Changing the System Admin password
 
-The docker compose file uses a Docker Secret linked to a file called `apacheds_admin_password.secret`. `apacheds_admin_password.secret` is git-ignored so it won't be there when you clone a fresh instance. To change the system admin password to, follow the following steps:
+The docker compose file uses a Docker Secret linked to a file called `apacheds_admin_password.secret`. `apacheds_admin_password.secret` is git-ignored so it won't be there when you clone a fresh instance. To change the system admin password, follow the following steps:
 
 1. Start Apache DS using `docker-compose up -d --build`
 1. Log in using [Apache Directory Studio](http://directory.apache.org/studio/) using the above default credentials
@@ -51,19 +51,19 @@ The docker compose file uses a Docker Secret linked to a file called `apacheds_a
 1. `echo "MyNewP@ssw0rd" >> apacheds_admin_password.secret`
 1. `docker-compose start`
 
-Note: Docker may have inadvertently created a **directory** called `apacheds_admin_password.secret` when you ran `docker-compose up`. Make sure you delete it before creating the actual secret file.
+> Note: Docker may have inadvertently created a **directory** called `apacheds_admin_password.secret` when you ran `docker-compose up`. Make sure you delete it before creating the actual secret file.
 
 ## Configuration 
 Container has two volumes defined:
 
-* **/data** - if you want to persist container data somewhere. [docker-compose.yml](docker-compose.yml) creates a [Docker Volume](https://docs.docker.com/storage/volumes/) called `apacheds_data`
-* **/bootstrap** - for configuration, schema and bootstraping file
+* **/data** - if you want to persist container data somewhere. [docker-compose.yml](docker-compose.yml) creates a persistent [Docker Volume](https://docs.docker.com/storage/volumes/) called `apacheds_data` that is tied to this directory.
+* **/bootstrap** - for configuration, schema, and bootstrapping file
 
 ### Bootstrapping
 
 If you want to bootstrap Apache DS with a specific **schema** place Apache DS specific schema in the [./bootstrap](bootstrap) folder, then start your server using `docker-compose`. The docker-compose file has that folder as a volume to be used for bootstrapping.
 
-Sample schema can be found in a [sample/schema.tar](sample/schema.tar) in this GitHub repository. 
+Sample schema can be found in [sample/schema.tar](sample/schema.tar) in this GitHub repository. 
 
 If you want to use specific **config.ldif** to setup Apache DS place it in the [./bootstrap](bootstrap) directory. Docker Compose will pick it up automaticaly.
 
@@ -111,7 +111,7 @@ To completely tear down the instance and delete all data:
 
     docker-compose down -v
 
-> If you don't use the -v flag, the containers will be stopped and removed, but the persistent volume will not.
+> If you don't use the -v flag, the containers will be stopped and removed, but the persistent volume will stay. If you start it up again it will connect to the previously created volume, rather than create a new one.
 
 
 ### Examples
