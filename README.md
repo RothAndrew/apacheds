@@ -21,6 +21,7 @@ To deploy Apache DS, run the following commands:
 
     git clone https://github.com/rothandrew/apacheds.git
 	cd apacheds
+	docker volume create --name=apacheds_data
 	docker-compose up -d --build
 
 The default instance of Apache DS will now be running on port 10389 with no SSL. It has a default admin user and password and all default Apache DS schemas.
@@ -38,6 +39,8 @@ This starts a default instance of Apache DS running on port 10389 with no SSL. I
 
 > bind dn: **uid=admin,ou=system** password: **secret**
 
+It will not persist your data since no volume has been attached.
+
 Note: If you do it this way, without using Docker Compose, you can't change the system admin password. If you do, the next time you restart the container it won't be able to start because the bootstrapping script relies on a [Docker Secret](https://docs.docker.com/engine/swarm/secrets/) to provide the password and Secrets aren't available to standalone containers.
 
 ## Changing the System Admin password
@@ -47,7 +50,7 @@ The docker compose file uses a Docker Secret linked to a file called `apacheds_a
 1. Start Apache DS using `docker-compose up -d --build`
 1. Log in using [Apache Directory Studio](http://directory.apache.org/studio/) using the above default credentials
 1. Change the password according to the [documentation](http://directory.apache.org/apacheds/basic-ug/1.4.2-changing-admin-password.html)
-1. `docker-compose down` (Don't use `-v`, it will delete your persistent volume!)
+1. `docker-compose down`
 1. `echo 'MyNewP@ssw0rd' >> apacheds_admin_password.secret`
 1. `docker-compose up -d --build`
 
@@ -110,8 +113,7 @@ To restart:
 To completely tear down the instance and delete all data:
 
     docker-compose down -v
-
-> If you don't use the -v flag, the containers will be stopped and removed, but the persistent volume will stay. If you start it up again it will connect to the previously created volume, rather than create a new one.
+	docker volume rm apacheds_data
 
 
 ### Examples
