@@ -13,14 +13,16 @@ services:
       - ./bootstrap:/bootstrap
     secrets:
       - apacheds_admin_password
-    networks:
-      - harbor
+    # uncomment if you need to use a network to connect this LDAP server with another container
+    #networks:
+    #  - apacheds
 volumes:
   apacheds_data:
     external: true
 secrets:
   apacheds_admin_password:
     file: ./apacheds_admin_password.secret
-networks:
-  harbor:
-    external: true
+# uncommend if you need to use a network to connect this LDAP server with another container
+#networks:
+#  apacheds:
+#    external: true
