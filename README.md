@@ -59,7 +59,7 @@ The docker compose file uses a Docker Secret linked to a file called `apacheds_a
 ## Configuration 
 Container has two volumes defined:
 
-* **/data** - if you want to persist container data somewhere. [docker-compose.yml](docker-compose.yml) creates a persistent [Docker Volume](https://docs.docker.com/storage/volumes/) called `apacheds_data` that is tied to this directory.
+* **/var/lib/apacheds-2.0.0_M24/default** - if you want to persist your LDAP data somewhere. [docker-compose.yml](docker-compose.yml) uses a persistent external [Docker Volume](https://docs.docker.com/storage/volumes/) called `apacheds_data` that is tied to this directory. It is defined as external to give it the best chance of never being deleted unless you specifically want to. If you want, you can remove the `external: true` parameter from the compose file and the volume will be created when you run `docker-compose up`. To delete the volume when you are tearing down the instance you can run `docker-compose down -v`
 * **/bootstrap** - for configuration, schema, and bootstrapping file
 
 ### Bootstrapping
