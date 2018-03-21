@@ -22,7 +22,7 @@ volumes:
 secrets:
   apacheds_admin_password:
     file: ./apacheds_admin_password.secret
-# uncommend if you need to use a network to connect this LDAP server with another container
+# uncomment if you need to use a network to connect this LDAP server with another container
 #networks:
 #  apacheds:
 #    external: true
